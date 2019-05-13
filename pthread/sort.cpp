@@ -1,10 +1,17 @@
 #include<iostream>
 #include<vector>
 #include<pthread.h>
+#include<cstdlib>
 using namespace std;
 struct arg {
     vector<int> vec;
 };
+void generate_array(vector<int> &array, int n) {
+    for (int i = 0; i < n; i++) {
+        array.push_back(rand() % 50);
+    }
+    return;
+}
 
 void *bubblesort(void *info) {
     struct arg *Vec = (struct arg *)info;
@@ -18,27 +25,9 @@ void *bubblesort(void *info) {
         }
     }
 }
-int main() {
-    pthread_t threads[2];
-    int n, elem;
-    struct arg info[2];
-    cin>>n;
-    vector<int> vec;
-    for (int i = 0; i < n; i++) {
-        cin>>elem;
-        vec.push_back(elem);
-    }  
-    for (int i = 0; i < n / 2; i++)
-        info[0].vec.push_back(vec[i]);
-    for (int i = (n / 2); i < n; i++)
-        info[1].vec.push_back(vec[i]);
-    pthread_create(&threads[0], NULL, &bubblesort, &info[0]);
-    pthread_create(&threads[1], NULL, &bubblesort, &info[1]);
-    pthread_join(threads[0], NULL);
-    pthread_join(threads[1], NULL);
+void merge(struct arg info[], vector<int> &res) {
     int len1 = info[0].vec.size(), len2 = info[1].vec.size(), k = 0, l = 0;
     int i = 0, flag = 0;
-    vector<int> res;
     while (k < len1 && l < len2) {
         if (info[0].vec[k] < info[1].vec[l]) {
             flag = 1;
@@ -60,7 +49,27 @@ int main() {
             res.push_back(info[0].vec[k]);
             k++;
         }
-    }   
+
+    }  
+    return; 
+}
+int main() {
+    pthread_t threads[2];
+    int n = 100, elem;
+    struct arg info[2];
+//    cin>>n;
+    vector<int> vec;
+    generate_array(vec, n);  
+    for (int i = 0; i < n / 2; i++)
+        info[0].vec.push_back(vec[i]);
+    for (int i = (n / 2); i < n; i++)
+        info[1].vec.push_back(vec[i]);
+    for (int i = 0; i < 2; i++)
+        pthread_create(&threads[i], NULL, &bubblesort, &info[i]);
+    for (int i = 0; i < 2; i++)
+        pthread_join(threads[i], NULL);
+    vector<int> res;
+    merge(info, res);
     for (int i = 0; i < res.size(); i++)
         cout<<res[i]<<' ';
     cout<<endl;

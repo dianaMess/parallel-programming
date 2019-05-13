@@ -5,8 +5,15 @@
 #include <string.h>
 #include<sys/wait.h>
 #include <sched.h>
-int new_array[100];
-int * bubblesort(int *array, int size) {
+
+int *generate_array(int *array, int size) {
+    for (int i = 0; i < size; i++) {
+        array[i] = rand() % 50;
+    }
+    return array;
+}
+
+int *bubblesort(int *array, int size) {
     for(int k = 0; k < size; k++) {
         for(int i = 0; i + 1 < size - k; i++) {
             if (array[i] > array[i + 1]) {
@@ -18,7 +25,7 @@ int * bubblesort(int *array, int size) {
     }
     return array;
 }
-void merge(int * first, int * second, int size) {
+int *merge(int *new_array, int *first, int *second, int size) {
     int k = 0, l = 0, i = 0, flag = 0;
     int len1 = size / 2, len2 = (size - (size / 2));
     while (k < len1 && l < len2) {
@@ -43,17 +50,20 @@ void merge(int * first, int * second, int size) {
             k++;
         }
     }   
-    return;
+    return new_array;
 }
+
 int main(int argc, char *argv[]) {
     enum { maxSons = 100 };
     int fd[maxSons][2];
     pid_t id[maxSons];
-    int sons = 2, fullSize, i;
-    int n, array[100], first[100], second[100];
+    int sons = 2, i;
+    int n, arr[100], first[100], second[100];
     scanf("%d", &n);
+    int *array = generate_array(arr, n);
     for (int k = 0; k < n; k++) 
-        scanf("%d", &array[k]);
+        printf("%d ", array[k]);    
+
     for (int k = 0; k < n / 2; k++)
         first[k] = array[k];
     int j = 0;
@@ -95,18 +105,11 @@ int main(int argc, char *argv[]) {
             read(fd[i][0], second_sorted, (n - (n / 2)) * sizeof(int));
         close(fd[i][0]);
     }
-    printf("arrays:");
     putchar('\n');
-    for (int k = 0; k < n / 2; k++)
-        printf("%d ", first_sorted[k]);
-    putchar('\n');
-    for (int k = 0; k < (n - (n / 2)); k++)
-        printf("%d ", second_sorted[k]);
-    putchar('\n');
-    int * sorted;
-    int sort[100];
-    merge(first_sorted, second_sorted, n);
+    int sorted_array[100];
+    int *sorted = merge(sorted_array, first_sorted, second_sorted, n);
     for (int k = 0; k < n; k++)
-        printf("%d ", new_array[k]);
+        printf("%d ", sorted[k]);
+    putchar('\n');
     return 0;
 }
