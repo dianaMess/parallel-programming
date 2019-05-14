@@ -3,7 +3,7 @@
 ### How to compile:  
 make switch  
 ### How to run:  
-for fork:
-./fork-parallel 'size of array'  
+for fork:  
+./fork-parallel   'size of array'  
 for pthreads:  
-./sort 'size of array'
+./sort   'size of array'
