@@ -53,9 +53,9 @@ void merge(struct arg info[], vector<int> &res) {
     }  
     return; 
 }
-int main() {
+int main(int argc, char * argv[]) {
     pthread_t threads[2];
-    int n = 100, elem;
+    int n = atoi(argv[1]), elem;
     struct arg info[2];
 //    cin>>n;
     vector<int> vec;
