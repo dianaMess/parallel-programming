@@ -4,6 +4,7 @@
 make switch  
 ### How to run:  
 for fork:  
-./fork-parallel   'size of array'  
+./fork-parallel   n  
 for pthreads:  
-./sort   'size of array'
+./sort   n  
+where 'n' is array's size 
