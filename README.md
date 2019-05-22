@@ -1,5 +1,5 @@
 # parallel-programming  
-## Implementation of bubble-sorting by forks and pthreads  
+## Implementation of bubble-sorting and Gauss method by forks and pthreads  
 ### How to compile:  
 In fork directory:  
 make switch  
