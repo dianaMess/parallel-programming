@@ -83,7 +83,7 @@ int main(int argc, char * argv[]) {
     int n = atoi(argv[1]);
     int i, j, k;
     double num;
-    int pthread_count = atoi(argv[2]);
+    int pthread_count = 2;
     generate_matrix(n);
     gauss(n, pthread_count);
     for(i = 0; i < n; i++) {
